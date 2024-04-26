@@ -57,7 +57,7 @@ jobs:
             os_name: ubuntu-latest
             container_image: quay.io/pypa/manylinux2014_x86_64
             build_type: Debug
-            build_python: ON
+            build_python: OFF
         libroadrunner_deps_owner: [ "adelhpour" ]
         libroadrunner_deps_repo: [ "libroadrunner-deps" ]
         libroadrunner_deps_release_version: [ "2.1.1" ]
@@ -192,9 +192,12 @@ jobs:
           -DCMAKE_C_COMPILER_LAUNCHER=${COMPILER_LAUNCHER} \
           -DCMAKE_CXX_COMPILER_LAUNCHER=${COMPILER_LAUNCHER} \
           ${LIBSBML_DIR} \
-          ${EXPAT_LIB} \
           -DWITH_PYTHON=${{ matrix.platform.build_python }} \
           -DWITH_QTANTIMONY=OFF \
+          -DWITH_LIBSBML_EXPAT=ON
+          ${EXPAT_LIB} \
+          -DWITH_LIBSBML_LIBXML=OFF \
+          -DWITH_STATIC_SBML=ON \
           -DCMAKE_INSTALL_PREFIX="${RUNNER_WORKSPACE}/install-antimony" \
           -DUSE_UNIVERSAL_BINARIES=OFF
 
