@@ -175,7 +175,7 @@ jobs:
           curl -L "https://github.com/${{ matrix.libroadrunner_deps_owner }}/${{ matrix.libroadrunner_deps_repo }}/releases/download/v${{ matrix.libroadrunner_deps_release_version }}/${{ matrix.libroadrunner_deps_repo }}-${{ matrix.platform.os_name }}-${{ matrix.platform.build_type }}.zip" > libroadrunner-deps-${{ matrix.platform.name }}.zip
           unzip -q libroadrunner-deps-${{ matrix.platform.name }}.zip -d libroadrunner-deps-${{ matrix.platform.name }}
           rm libroadrunner-deps-${{ matrix.platform.name }}.zip
-          echo LIBROADRUNNER_DEPENDENCIES_DIR="-DRR_DEPENDENCIES_INSTALL_PREFIX=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}" >> "${GITHUB_ENV}"
+          echo LIBSBML_DIR="-DLIBSBML_INSTALL_DIR=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}" >> "${GITHUB_ENV}"
 
       - name: Create build directory
         shell: bash
@@ -191,7 +191,7 @@ jobs:
           -DCMAKE_OSX_ARCHITECTURES=${{ matrix.platform.arch }} \
           -DCMAKE_C_COMPILER_LAUNCHER=${COMPILER_LAUNCHER} \
           -DCMAKE_CXX_COMPILER_LAUNCHER=${COMPILER_LAUNCHER} \
-          ${LIBROADRUNNER_DEPENDENCIES_DIR} \
+          ${LIBSBML_DIR} \
           -DWITH_PYTHON=${{ matrix.platform.build_python }} \
           -DWITH_QTANTIMONY=OFF \
           -DCMAKE_INSTALL_PREFIX="${RUNNER_WORKSPACE}/install-antimony" \
