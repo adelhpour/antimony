@@ -195,7 +195,7 @@ jobs:
           -DWITH_PYTHON=${{ matrix.platform.build_python }} \
           -DWITH_QTANTIMONY=OFF \
           -DCMAKE_INSTALL_PREFIX="${RUNNER_WORKSPACE}/install-antimony" \
-          -USE_UNIVERSAL_BINARIES=OFF \
+          -DUSE_UNIVERSAL_BINARIES=OFF
 
       - name: Build and Install Antimony
         shell: bash
