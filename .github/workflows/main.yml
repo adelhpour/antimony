@@ -196,7 +196,7 @@ jobs:
           ${LIBSBML_DIR} \
           -DWITH_STATIC_SBML=ON \
           -DWITH_QTANTIMONY=OFF \
-          -DWITH_LIBSBML_EXPAT=ON
+          -DWITH_LIBSBML_EXPAT=ON \
           ${EXPAT_LIB} \
           -DWITH_LIBSBML_LIBXML=OFF \
           -DWITH_PYTHON=${{ matrix.platform.build_python }} \
