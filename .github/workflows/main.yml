@@ -184,7 +184,7 @@ jobs:
       - name: Configure CMake for Antimony
         shell: bash
         run: |
-          cd ${RUNNER_WORKSPACE}/build-anitmony
+          cd ${RUNNER_WORKSPACE}/build-antimony
           cmake $GITHUB_WORKSPACE \
           -G "Ninja" \
           -DCMAKE_BUILD_TYPE=${{ matrix.platform.build_type }} \
