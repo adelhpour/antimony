@@ -199,9 +199,7 @@ jobs:
             echo "b) qt/Qt5 directory"
             cd qt/Qt5
             ls -l
-            echo "QT_INSTALL_PREFIX=${RUNNER_WORKSPACE}/qt/Qt5" >> "${GITHUB_ENV}"
-            echo "qt directory is ${RUNNER_WORKSPACE}/qt/Qt5"
-            ls -l ${RUNNER_WORKSPACE}/qt/Qt5
+            echo Qt5_INSTALL_DIR="Qt5_DIR=${RUNNER_WORKSPACE}/qt/Qt5/5.15.2/msvc2019_64/lib/cmake/Qt5" >> "${GITHUB_ENV}"
           elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
             yum install -y qt5-qtbase-devel
           fi
@@ -223,6 +221,7 @@ jobs:
           ${LIBSBML_DIR} \
           -DWITH_STATIC_SBML=ON \
           -DWITH_QTANTIMONY=OFF \
+          ${Qt5_INSTALL_DIR} \
           -DWITH_LIBSBML_EXPAT=ON \
           ${EXPAT_LIB} \
           -DWITH_LIBSBML_LIBXML=OFF \
