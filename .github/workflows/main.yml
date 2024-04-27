@@ -196,6 +196,7 @@ jobs:
             rm qt.zip
             echo "QT_INSTALL_PREFIX=${RUNNER_WORKSPACE}/qt/Qt5" >> "${GITHUB_ENV}"
             echo "qt directory is ${RUNNER_WORKSPACE}/qt/Qt5"
+            ls -l ${RUNNER_WORKSPACE}/qt/Qt5
           elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
             yum install -y qt5-qtbase-devel
           fi
