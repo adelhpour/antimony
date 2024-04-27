@@ -186,8 +186,8 @@ jobs:
           if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
             brew install qt@5
           elif [ "${{ matrix.platform.os_type }}" == 'ubuntu' ]; then
-            apt-get update
-            apt-get install -y qtbase5-dev
+            sudo apt-get update
+            sudo apt-get install -y qtbase5-dev
           elif [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
             mkdir -p qt
             cd qt
