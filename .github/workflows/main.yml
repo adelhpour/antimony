@@ -194,6 +194,11 @@ jobs:
             curl -L https://github.com/sys-bio/antimony/releases/download/libcheck/Qt5.15.2.msvc.zip > qt.zip
             unzip -q qt.zip -d qt
             rm qt.zip
+            echo "a) qt directory"
+            ls -l
+            echo "b) qt/Qt5 directory"
+            cd qt/Qt5
+            ls -l
             echo "QT_INSTALL_PREFIX=${RUNNER_WORKSPACE}/qt/Qt5" >> "${GITHUB_ENV}"
             echo "qt directory is ${RUNNER_WORKSPACE}/qt/Qt5"
             ls -l ${RUNNER_WORKSPACE}/qt/Qt5
