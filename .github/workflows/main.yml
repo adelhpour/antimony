@@ -163,7 +163,7 @@ jobs:
           echo "${RUNNER_WORKSPACE}/python${{ matrix.python_version.version }}/install-python/bin" >> $GITHUB_PATH
           echo "export PATH=${RUNNER_WORKSPACE}/python${{ matrix.python_version.version }}/install-python/bin:$PATH" >> $GITHUB_ENV
 
-      - name: Download libRoadRunner dependencies binaries
+      - name: Download dependencies binaries
         shell: bash
         run: |
           cd ${RUNNER_WORKSPACE}
@@ -177,6 +177,21 @@ jobs:
             echo EXPAT_LIB="-DEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib/${{ matrix.platform.expat_lib_name }}" >> "${GITHUB_ENV}"
           elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
             echo EXPAT_LIB="-DLIBEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib64/libexpat.a" >> "${GITHUB_ENV}"
+          fi
+
+      - name: Install Qt
+        shell: bash
+        run: |
+          cd ${RUNNER_WORKSPACE}
+          if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
+            brew install qt@5
+          elif [ "${{ matrix.platform.os_type }}" == 'ubuntu' ]; then
+            sudo apt-get update
+            sudo apt-get install -y qt5-default
+          elif [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
+            choco install qt5
+          elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
+            yum install -y qt5-qtbase-devel
           fi
 
       - name: Create build directory
