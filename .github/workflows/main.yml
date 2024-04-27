@@ -176,7 +176,7 @@ jobs:
           if [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
             echo EXPAT_LIB="-DEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib/${{ matrix.platform.expat_lib_name }}" >> "${GITHUB_ENV}"
           elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
-            echo EXPAT_LIB="-DEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib64/libexpat.a" >> "${GITHUB_ENV}"
+            echo EXPAT_LIB="-DLIBEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib64/libexpat.a" >> "${GITHUB_ENV}"
           fi
 
       - name: Create build directory
