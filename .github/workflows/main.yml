@@ -186,10 +186,16 @@ jobs:
           if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
             brew install qt@5
           elif [ "${{ matrix.platform.os_type }}" == 'ubuntu' ]; then
-            sudo apt-get update
-            sudo apt-get install -y qt5-default
+            apt-get update
+            apt-get install -y qtbase5-dev
           elif [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
-            choco install qt5
+            mkdir -p qt
+            cd qt
+            curl -L https://github.com/sys-bio/antimony/releases/download/libcheck/Qt5.15.2.msvc.zip > qt.zip
+            unzip -q qt.zip -d qt
+            rm qt.zip
+            echo "QT_INSTALL_PREFIX=${RUNNER_WORKSPACE}/qt/Qt5" >> "${GITHUB_ENV}"
+            echo "qt directory is ${RUNNER_WORKSPACE}/qt/Qt5"
           elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
             yum install -y qt5-qtbase-devel
           fi
