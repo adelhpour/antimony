@@ -208,7 +208,7 @@ jobs:
           -DCMAKE_C_COMPILER_LAUNCHER=${COMPILER_LAUNCHER} \
           -DCMAKE_CXX_COMPILER_LAUNCHER=${COMPILER_LAUNCHER} \
           ${LIBSBML_DIR} \
-          -DWITH_STATIC_SBML=ON \
+          -DWITH_STATIC_SBML=OFF \
           -DWITH_QTANTIMONY=${{ matrix.platform.build_qt_antimony }} \
           ${Qt5_INSTALL_DIR} \
           -DWITH_LIBSBML_EXPAT=ON \
