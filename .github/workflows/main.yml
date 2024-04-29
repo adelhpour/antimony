@@ -226,3 +226,9 @@ jobs:
         run: |
           cd ${RUNNER_WORKSPACE}/build-antimony
           cmake --build . --target install --config ${{ matrix.platform.build_type }}
+
+      - name: Run Antimony tests
+        shell: bash
+        run: |
+          cd ${RUNNER_WORKSPACE}/build-antimony
+          ctest -C ${{ matrix.platform.build_type }} --output-on-failure --verbose --extra-verbose --progress
