@@ -174,16 +174,25 @@ jobs:
       - name: Download dependencies binaries
         shell: bash
         run: |
-          cd ${RUNNER_WORKSPACE}
-          mkdir -p libroadrunner-deps-binaries
-          cd libroadrunner-deps-binaries
-          curl -L "https://github.com/${{ matrix.libroadrunner_deps_owner }}/${{ matrix.libroadrunner_deps_repo }}/releases/download/v${{ matrix.libroadrunner_deps_release_version }}/${{ matrix.libroadrunner_deps_repo }}-${{ matrix.platform.os_name }}-${{ matrix.platform.build_type }}.zip" > libroadrunner-deps-${{ matrix.platform.name }}.zip
-          unzip -q libroadrunner-deps-${{ matrix.platform.name }}.zip -d libroadrunner-deps-${{ matrix.platform.name }}
-          rm libroadrunner-deps-${{ matrix.platform.name }}.zip
-          echo LIBSBML_DIR="-DLIBSBML_INSTALL_DIR=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}" >> "${GITHUB_ENV}"
-          if [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
-            echo EXPAT_LIB="-DEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib/${{ matrix.platform.expat_lib_name }}" >> "${GITHUB_ENV}"
-          elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
+          if [ "${{ matrix.platform.os_type }}" != 'manylinux' ]; then
+            cd ${RUNNER_WORKSPACE}
+            mkdir -p libroadrunner-deps-binaries
+            cd libroadrunner-deps-binaries
+            curl -L "https://github.com/${{ matrix.libroadrunner_deps_owner }}/${{ matrix.libroadrunner_deps_repo }}/releases/download/v${{ matrix.libroadrunner_deps_release_version }}/${{ matrix.libroadrunner_deps_repo }}-${{ matrix.platform.os_name }}-${{ matrix.platform.build_type }}.zip" > libroadrunner-deps-${{ matrix.platform.name }}.zip
+            unzip -q libroadrunner-deps-${{ matrix.platform.name }}.zip -d libroadrunner-deps-${{ matrix.platform.name }}
+            rm libroadrunner-deps-${{ matrix.platform.name }}.zip
+            echo LIBSBML_DIR="-DLIBSBML_INSTALL_DIR=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}" >> "${GITHUB_ENV}"
+            if [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
+              echo EXPAT_LIB="-DEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib/${{ matrix.platform.expat_lib_name }}" >> "${GITHUB_ENV}"
+            fi
+          else
+            cd ${RUNNER_WORKSPACE}
+            mkdir -p libroadrunner-deps-binaries
+            cd libroadrunner-deps-binaries
+            curl -L "https://github.com/sys-bio/libroadrunner-deps/releases/download/v2.1/libroadrunner-deps-manylinux2014-Release.zip" > libroadrunner-deps-${{ matrix.platform.name }}.zip
+            unzip -q libroadrunner-deps-${{ matrix.platform.name }}.zip -d libroadrunner-deps-${{ matrix.platform.name }}
+            rm libroadrunner-deps-${{ matrix.platform.name }}.zip
+            echo LIBSBML_DIR="-DLIBSBML_INSTALL_DIR=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}" >> "${GITHUB_ENV}"
             echo EXPAT_LIB="-DLIBEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib64/libexpat.a" >> "${GITHUB_ENV}"
           fi
 
@@ -208,7 +217,7 @@ jobs:
           -DCMAKE_C_COMPILER_LAUNCHER=${COMPILER_LAUNCHER} \
           -DCMAKE_CXX_COMPILER_LAUNCHER=${COMPILER_LAUNCHER} \
           ${LIBSBML_DIR} \
-          -DWITH_STATIC_SBML=OFF \
+          -DWITH_STATIC_SBML=ON \
           -DWITH_QTANTIMONY=${{ matrix.platform.build_qt_antimony }} \
           ${Qt5_INSTALL_DIR} \
           -DWITH_LIBSBML_EXPAT=ON \
