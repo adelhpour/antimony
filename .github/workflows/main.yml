@@ -184,6 +184,7 @@ jobs:
         run: |
           cd ${RUNNER_WORKSPACE}
           if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
+            brew update
             brew install qt@5
           elif [ "${{ matrix.platform.os_type }}" == 'ubuntu' ]; then
             sudo apt-get update
