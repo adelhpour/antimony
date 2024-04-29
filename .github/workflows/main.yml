@@ -18,46 +18,54 @@ jobs:
             arch: x86_64
             build_type: Release
             build_python: ON
+            build_qt_antimony: ON
           - name: macos-11-debug
             os_type: macos
             os_name: macos-11
             arch: x86_64
             build_type: Debug
             build_python: ON
+            build_qt_antimony: ON
           - name: ubuntu-latest-release
             os_type: ubuntu
             os_name: ubuntu-latest
             build_type: Release
             build_python: ON
+            build_qt_antimony: ON
           - name: ubuntu-latest-debug
             os_type: ubuntu
             os_name: ubuntu-latest
             build_type: Debug
             build_python: ON
+            build_qt_antimony: ON
           - name: windows-latest-release
             os_type: windows
             os_name: windows-latest
             expat_lib_name: libexpatmd.lib
             build_type: Release
             build_python: ON
+            build_qt_antimony: ON
           - name: windows-latest-debug
             os_type: windows
             os_name: windows-latest
             expat_lib_name: libexpatdMD.lib
             build_type: Debug
             build_python: OFF
+            build_qt_antimony: ON
           - name: manylinux2014-release
             os_type: manylinux
             os_name: ubuntu-latest
             container_image: quay.io/pypa/manylinux2014_x86_64
             build_type: Release
             build_python: ON
+            build_qt_antimony: OFF
           - name: manylinux2014-debug
             os_type: manylinux
             os_name: ubuntu-latest
             container_image: quay.io/pypa/manylinux2014_x86_64
             build_type: Debug
             build_python: ON
+            build_qt_antimony: OFF
         libroadrunner_deps_owner: [ "adelhpour" ]
         libroadrunner_deps_repo: [ "libroadrunner-deps" ]
         libroadrunner_deps_release_version: [ "2.1.1" ]
@@ -180,37 +188,10 @@ jobs:
           fi
 
       - name: Install Qt
+        if : matrix.platform.build_qt_antimony == 'ON'
         uses: jurplel/install-qt-action@v3
         with:
           version: '5.15.2'
-
-      - name: Install Qt
-        shell: bash
-        run: |
-          cd ${RUNNER_WORKSPACE}
-          if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
-            brew update
-            brew install qt@5
-          elif [ "${{ matrix.platform.os_type }}" == 'ubuntu' ]; then
-            sudo apt-get update
-            sudo apt-get install -y qtbase5-dev
-          elif [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
-            mkdir -p qt
-            cd qt
-            curl -L https://github.com/sys-bio/antimony/releases/download/libcheck/Qt5.15.2.msvc.zip > qt.zip
-            unzip -q qt.zip -d qt
-            rm qt.zip
-            echo "a) qt directory"
-            ls -l
-            echo "b) qt/Qt5 directory"
-            cd qt/Qt5
-            ls -l
-            echo "c) qt/Qt5/5.15.2 directory"
-            ls -l ${RUNNER_WORKSPACE}\qt\Qt5\5.15.2\msvc2019_64\lib\cmake\Qt5
-            echo Qt5_INSTALL_DIR="Qt5_DIR=${RUNNER_WORKSPACE}\qt\Qt5\5.15.2\msvc2019_64\lib\cmake\Qt5" >> "${GITHUB_ENV}"
-          elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
-            yum install -y qt5-qtbase-devel
-          fi
 
       - name: Create build directory
         shell: bash
