@@ -192,6 +192,12 @@ jobs:
             curl -L "https://github.com/sys-bio/libroadrunner-deps/releases/download/v2.1/libroadrunner-deps-manylinux2014-Release.zip" > libroadrunner-deps-${{ matrix.platform.name }}.zip
             unzip -q libroadrunner-deps-${{ matrix.platform.name }}.zip -d libroadrunner-deps-${{ matrix.platform.name }}
             rm libroadrunner-deps-${{ matrix.platform.name }}.zip
+            echo "a) libsbml is installed in"
+            ls ${RUNNER_WORKSPACE}
+            echo "b) libroadrunner-deps-binaries is installed in"
+            ls ${RUNNER_WORKSPACE}/libroadrunner-deps-binaries
+            echo "c) libroadrunner-deps-manylinux2014-Release is installed in"
+            ls ${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}
             echo LIBSBML_DIR="-DLIBSBML_INSTALL_DIR=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}" >> "${GITHUB_ENV}"
             echo EXPAT_LIB="-DLIBEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib64/libexpat.a" >> "${GITHUB_ENV}"
           fi
