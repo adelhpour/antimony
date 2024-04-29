@@ -199,8 +199,8 @@ jobs:
             echo "c) libroadrunner-deps-manylinux2014-Release is installed in"
             ls ${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}
             echo "d) libroadrunner-deps-manylinux2014-Release/lib is installed in"
-            ls ${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/libroadrunner-deps-manylinux2014-Release/install-azure
-            echo LIBSBML_DIR="-DLIBSBML_INSTALL_DIR=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/libroadrunner-deps-manylinux2014-Release/install-azure" >> "${GITHUB_ENV}"
+            ls ${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/libroadrunner-deps-manylinux2014-Release/install-azure/Release
+            echo LIBSBML_DIR="-DLIBSBML_INSTALL_DIR=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/libroadrunner-deps-manylinux2014-Release/install-azure/Release" >> "${GITHUB_ENV}"
             echo EXPAT_LIB="-DLIBEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib64/libexpat.a" >> "${GITHUB_ENV}"
           fi
 
