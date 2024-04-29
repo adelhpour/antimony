@@ -180,9 +180,16 @@ jobs:
           fi
 
       - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '5.15.2'
+          dir: '${RUNNER_WORKSPACE}/qt'
+
+      - name: Install Qt
         shell: bash
         run: |
           cd ${RUNNER_WORKSPACE}
+          ls ${RUNNER_WORKSPACE}/qt
           if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
             brew update
             brew install qt@5
