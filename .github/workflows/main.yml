@@ -91,6 +91,15 @@ jobs:
         if: matrix.platform.os_type == 'windows'
         uses: ilammy/msvc-dev-cmd@v1.6.0
 
+      - name: Upgrade gcc on ManyLinux
+        if: matrix.platform.os_type == 'manylinux'
+        shell: bash
+        run: |
+          yum install -y centos-release-scl
+          yum install -y devtoolset-11
+          scl enable devtoolset-11 bash
+          echo "/opt/rh/devtoolset-11/root/usr/bin" >> $GITHUB_PATH
+
       - name: Setup Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
 
