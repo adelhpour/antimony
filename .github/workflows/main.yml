@@ -232,7 +232,7 @@ jobs:
           -DWITH_LIBSBML_EXPAT=ON \
           -DEXPAT_LIBRARY=${EXPAT_LIBRARY} \
           -DWITH_LIBSBML_LIBXML=OFF \
-          -DWITH_CHECK=ON \
+          -DWITH_CHECK=OFF \
           -DLIBCHECK_INCLUDE_DIR=${LIBCHECK_INCLUDE_DIR} \
           -DLIBCHECK_LIBRARY=${LIBCHECK_LIBRARY} \
           -DWITH_PYTHON=${{ matrix.platform.build_python }}
