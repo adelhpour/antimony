@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_on_OSs:
-    name: Build antimony on ${{ matrix.platform.name }}
+    name: Build Antimony on ${{ matrix.platform.name }}
     strategy:
       fail-fast: false
       matrix:
@@ -76,7 +76,7 @@ jobs:
       image: ${{ matrix.platform.container_image || '' }}
 
     steps:
-      - name: Checkout RoadRunner
+      - name: Checkout Antimony
         uses: actions/checkout@v3
 
       - name: Set MSVC as the default compiler on Windows
@@ -146,13 +146,13 @@ jobs:
             ${{ runner.os }}-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
             ${{ runner.os }}-
 
-      - name: Setup Python for non-manylinux platforms
+      - name: Setup Python for non-Manylinux platforms
         if: matrix.platform.build_python == 'ON' && matrix.platform.os_type != 'manylinux'
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python_version }}
 
-      - name: Setup Python for manylinux platforms
+      - name: Setup Python for Manylinux platforms
         if: matrix.platform.build_python == 'ON' && matrix.platform.os_type == 'manylinux'
         shell: bash
         run: |
@@ -237,7 +237,7 @@ jobs:
           -DLIBCHECK_LIBRARY=${LIBCHECK_LIBRARY} \
           -DWITH_PYTHON=${{ matrix.platform.build_python }}
 
-      - name: Build and Install Antimony
+      - name: Build and install Antimony
         shell: bash
         run: |
           cd ${RUNNER_WORKSPACE}/build-antimony
