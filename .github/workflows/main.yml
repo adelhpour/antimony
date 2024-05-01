@@ -192,7 +192,7 @@ jobs:
           echo LIBSBML_DIR="-DLIBSBML_INSTALL_DIR=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}" >> "${GITHUB_ENV}"
           if [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
             echo EXPAT_LIB="-DEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib/${{ matrix.platform.expat_lib_name }}" >> "${GITHUB_ENV}"
-
+          fi
 
       - name: Install Qt
         if : matrix.platform.build_qt_antimony == 'ON'
