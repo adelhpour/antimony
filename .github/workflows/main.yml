@@ -193,7 +193,7 @@ jobs:
           if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
             brew install check
           elif [ "${{ matrix.platform.os_type }}" == 'ubuntu' ]; then
-            sudo apt-get install -y check
+            sudo apt install -y check
           elif [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
             curl -L https://github.com/sys-bio/antimony/releases/download/libcheck/check-${{ matrix.platform.build_type }}.zip > check.zip
             unzip -q check.zip -d check
@@ -232,7 +232,7 @@ jobs:
           -DWITH_LIBSBML_EXPAT=ON \
           -DEXPAT_LIBRARY=${EXPAT_LIBRARY} \
           -DWITH_LIBSBML_LIBXML=OFF \
-          -DWITH_CHECK=OFF \
+          -DWITH_CHECK=ON \
           -DLIBCHECK_INCLUDE_DIR=${LIBCHECK_INCLUDE_DIR} \
           -DLIBCHECK_LIBRARY=${LIBCHECK_LIBRARY} \
           -DWITH_PYTHON=${{ matrix.platform.build_python }}
