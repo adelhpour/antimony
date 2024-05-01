@@ -186,6 +186,24 @@ jobs:
             echo EXPAT_LIB="-DEXPAT_LIBRARY=${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib/${{ matrix.platform.expat_lib_name }}" >> "${GITHUB_ENV}"
           fi
 
+      - name: Install check
+        shell: bash
+        run: |
+          cd ${RUNNER_WORKSPACE}
+          if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
+            brew install check
+          elif [ "${{ matrix.platform.os_type }}" == 'ubuntu' ]; then
+            sudo apt-get install -y check
+          elif [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
+            curl -L https://github.com/sys-bio/antimony/releases/download/libcheck/check-${{ matrix.platform.build_type }}.zip > check.zip
+            unzip -q check.zip -d check
+            rm check.zip
+            echo LIBCHECK_INCLUDE_DIR="-DLIBCHECK_INCLUDE_DIR=${RUNNER_WORKSPACE}/check/include" >> "${GITHUB_ENV}"
+            echo LIBCHECK_LIBRARY="-DLIBCHECK_LIBRARY=${RUNNER_WORKSPACE}/check/lib/libcheck.lib" >> "${GITHUB_ENV}"
+          elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
+            yum install -y check-devel
+          fi
+
       - name: Install Qt
         if : matrix.platform.build_qt_antimony == 'ON'
         uses: jurplel/install-qt-action@v3
