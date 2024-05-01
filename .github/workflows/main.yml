@@ -198,8 +198,8 @@ jobs:
             curl -L https://github.com/sys-bio/antimony/releases/download/libcheck/check-${{ matrix.platform.build_type }}.zip > check.zip
             unzip -q check.zip -d check
             rm check.zip
-            echo LIBCHECK_INCLUDE_DIR="${RUNNER_WORKSPACE}/check/include" >> "${GITHUB_ENV}"
-            echo LIBCHECK_LIBRARY="${RUNNER_WORKSPACE}/check/lib/libcheck.lib" >> "${GITHUB_ENV}"
+            echo "export LIBCHECK_INCLUDE_DIR=\"${RUNNER_WORKSPACE}/check/include\"" >> "${GITHUB_ENV}"
+            echo "export LIBCHECK_LIBRARY=\"${RUNNER_WORKSPACE}/check/lib/check.lib\"" >> "${GITHUB_ENV}"
           elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
             yum install -y check-devel
           fi
