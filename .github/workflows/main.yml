@@ -253,8 +253,8 @@ jobs:
           -DEXPAT_LIBRARY=${EXPAT_LIBRARY} \
           -DWITH_LIBSBML_LIBXML=OFF \
           -DWITH_CHECK=ON \
-          -DLIBCHECK_INCLUDE_DIR=${LIBCHECK_INCLUDE_DIR} \
-          -DLIBCHECK_LIBRARY=${LIBCHECK_LIBRARY} \
+          ${LIBCHECK_INCLUDE_DIR} \
+          ${LIBCHECK_LIBRARY} \
           -DWITH_PYTHON=${{ matrix.platform.build_python }}
 
       - name: Build and install Antimony
