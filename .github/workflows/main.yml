@@ -95,6 +95,44 @@ jobs:
       - name: Setup Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
 
+      - name: Install libcheck
+        shell: bash
+        run: |
+          cd ${RUNNER_WORKSPACE}
+          mkdir -p check
+          cd check
+          curl -L https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz > check.tar.gz
+          tar -zxf check.tar.gz
+          rm check.tar.gz
+          mkdir -p build-check
+          mkdir -p install-check
+          cd build-check
+          cmake -DCMAKE_INSTALL_PREFIX="${RUNNER_WORKSPACE}/check/install-check" -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=${{ matrix.platform.arch }} ../check-0.15.2
+          cmake --build . --target install
+          echo "$RUNNER_WORKSPACE/check/install-check" >> $GITHUB_PATH
+          echo echo "export LIBCHECK_INCLUDE_DIR=\"${RUNNER_WORKSPACE}/check/install-check/include\"" >> "${GITHUB_ENV}"
+          echo echo "export LIBCHECK_LIBRARY=\"${RUNNER_WORKSPACE}/check/install-check/lib/libcheck.a\"" >> "${GITHUB_ENV}"
+
+          #if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
+          #  brew install check
+          #elif [ "${{ matrix.platform.os_type }}" == 'ubuntu' ]; then
+          #  sudo apt install -y check
+          #elif [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
+          #  curl -L https://github.com/sys-bio/antimony/releases/download/libcheck/check-${{ matrix.platform.build_type }}.zip > check.zip
+          #  unzip -q check.zip -d check
+          #  rm check.zip
+          #  echo "export LIBCHECK_INCLUDE_DIR=\"${RUNNER_WORKSPACE}/check/include\"" >> "${GITHUB_ENV}"
+          #  echo "export LIBCHECK_LIBRARY=\"${RUNNER_WORKSPACE}/check/lib/check.lib\"" >> "${GITHUB_ENV}"
+          #elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
+          #  yum install -y check-devel
+          #fi
+
+      - name: check check directory
+        shell: bash
+        run: |
+          echo "LIBCHECK_INCLUDE_DIR=${LIBCHECK_INCLUDE_DIR}"
+          echo "LIBCHECK_LIBRARY=${LIBCHECK_LIBRARY}"
+
       - name: Install ccache
         shell: bash
         run: |
@@ -185,38 +223,6 @@ jobs:
           if [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
             echo EXPAT_LIBRARY="${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}/lib/${{ matrix.platform.expat_lib_name }}" >> "${GITHUB_ENV}"
           fi
-
-      - name: Install libcheck
-        shell: bash
-        run: |
-          cd ${RUNNER_WORKSPACE}
-          mkdir -p check
-          cd check
-          curl -L https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz > check.tar.gz
-          tar -zxf check.tar.gz
-          rm check.tar.gz
-          mkdir -p build-check
-          mkdir -p install-check
-          cd build-check
-          cmake -DCMAKE_INSTALL_PREFIX="${RUNNER_WORKSPACE}/check/install-check" -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=${{ matrix.platform.arch }} ../check-0.15.2
-          cmake --build . --target install
-          echo "$RUNNER_WORKSPACE/check/install-check" >> $GITHUB_PATH
-          echo echo "export LIBCHECK_INCLUDE_DIR=\"${RUNNER_WORKSPACE}/check/install-check/include\"" >> "${GITHUB_ENV}"
-          echo echo "export LIBCHECK_LIBRARY=\"${RUNNER_WORKSPACE}/check/install-check/lib/libcheck.a\"" >> "${GITHUB_ENV}"
-          
-          #if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
-          #  brew install check
-          #elif [ "${{ matrix.platform.os_type }}" == 'ubuntu' ]; then
-          #  sudo apt install -y check
-          #elif [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
-          #  curl -L https://github.com/sys-bio/antimony/releases/download/libcheck/check-${{ matrix.platform.build_type }}.zip > check.zip
-          #  unzip -q check.zip -d check
-          #  rm check.zip
-          #  echo "export LIBCHECK_INCLUDE_DIR=\"${RUNNER_WORKSPACE}/check/include\"" >> "${GITHUB_ENV}"
-          #  echo "export LIBCHECK_LIBRARY=\"${RUNNER_WORKSPACE}/check/lib/check.lib\"" >> "${GITHUB_ENV}"
-          #elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
-          #  yum install -y check-devel
-          #fi
 
       - name: Install Qt
         if : matrix.platform.build_qt_antimony == 'ON'
