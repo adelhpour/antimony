@@ -69,7 +69,7 @@ jobs:
         libroadrunner_deps_owner: [ "sys-bio" ]
         libroadrunner_deps_repo: [ "libroadrunner-deps" ]
         libroadrunner_deps_release_version: [ "v2.1.1" ]
-        python_version: ["3.11"]
+        python_version: [ "3.11" ]
 
     runs-on: ${{ matrix.platform.os_name }}
     container:
@@ -284,11 +284,11 @@ jobs:
             python -m pip install setuptools wheel
             python setup.py bdist_wheel
           elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
-            python${{ matrix.python_version.version }} -m pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org setuptools wheel
-            python${{ matrix.python_version.version }} setup.py bdist_wheel
+            python${{ matrix.python_version }} -m pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org setuptools wheel
+            python${{ matrix.python_version }} setup.py bdist_wheel
           else
-            python${{ matrix.python_version.version }} -m pip install setuptools wheel
-            python${{ matrix.python_version.version }} setup.py bdist_wheel
+            python${{ matrix.python_version }} -m pip install setuptools wheel
+            python${{ matrix.python_version }} setup.py bdist_wheel
           fi
 
       - name: Set Python wheel artifacts path and name
