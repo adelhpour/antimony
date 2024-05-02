@@ -259,3 +259,49 @@ jobs:
         run: |
           cd ${RUNNER_WORKSPACE}/build-antimony
           ctest -C ${{ matrix.platform.build_type }} --output-on-failure --verbose --extra-verbose --progress
+
+      - name: Set artifacts path and name
+        shell: bash
+        run: |
+          cd ${RUNNER_WORKSPACE}
+          echo "artifacts_name=antimony-${{ matrix.platform.name }}" >> "${GITHUB_ENV}"
+          # we need to use relative path as actions/upload-artifact@v1 cannot find it on containerized runners
+          echo "artifacts_path=../install-antimony" >> "${GITHUB_ENV}"
+
+      - name: Upload Antimony binaries
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{env.artifacts_name}}
+          path: ${{env.artifacts_path}}
+
+      - name: Create Python wheel artifacts
+        if: matrix.platform.build_type == 'Release' && matrix.platform.build_python == 'ON'
+        shell: bash
+        run: |
+          cd ${RUNNER_WORKSPACE}/install-antimony/bindings/python
+          if [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
+            python -m pip install setuptools wheel
+            python setup.py bdist_wheel
+          elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
+            python${{ matrix.python_version.version }} -m pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org setuptools wheel
+            python${{ matrix.python_version.version }} setup.py bdist_wheel
+          else
+            python${{ matrix.python_version.version }} -m pip install setuptools wheel
+            python${{ matrix.python_version.version }} setup.py bdist_wheel
+          fi
+
+      - name: Set Python wheel artifacts path and name
+        if: matrix.platform.build_type == 'Release' && matrix.platform.build_python == 'ON'
+        shell: bash
+        run: |
+          cd ${RUNNER_WORKSPACE}
+          echo "python_wheel_artifacts_name=antimony-${{ matrix.platform.name }}-py3-none-wheel-file" >> "${GITHUB_ENV}"
+          # we need to use relative path as actions/upload-artifact@v1 cannot find it on containerized runners
+          echo "python_wheel_artifacts_path=../install-antimony/bindings/python/dist" >> "${GITHUB_ENV}"
+
+      - name: Upload Python wheel artifacts
+        if: matrix.platform.build_type == 'Release' && matrix.platform.build_python == 'ON'
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{env.python_wheel_artifacts_name}}
+          path: ${{env.python_wheel_artifacts_path}}
