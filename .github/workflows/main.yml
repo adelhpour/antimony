@@ -99,8 +99,6 @@ jobs:
         shell: bash
         run: |
           cd ${RUNNER_WORKSPACE}
-          mkdir -p check
-          cd check
           if [ "${{ matrix.platform.os_type }}" == 'windows' ]; then
             curl -L https://github.com/sys-bio/antimony/releases/download/libcheck/check-${{ matrix.platform.build_type }}.zip > check.zip
             unzip -q check.zip -d check
@@ -110,6 +108,8 @@ jobs:
             echo LIBCHECK_INCLUDE_DIR="-DLIBCHECK_INCLUDE_DIR=${RUNNER_WORKSPACE}/check/include" >> "${GITHUB_ENV}"
             echo LIBCHECK_LIBRARY="-DLIBCHECK_LIBRARY=${RUNNER_WORKSPACE}/check/lib/libcheck.lib" >> "${GITHUB_ENV}"
           else
+            mkdir -p check
+            cd check
             curl -L https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz > check.tar.gz
             tar -zxf check.tar.gz
             rm check.tar.gz
