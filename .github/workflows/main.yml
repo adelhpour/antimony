@@ -66,9 +66,9 @@ jobs:
             build_type: Debug
             build_python: ON
             build_qt_antimony: OFF
-        libroadrunner_deps_owner: [ "adelhpour" ]
+        libroadrunner_deps_owner: [ "sys-bio" ]
         libroadrunner_deps_repo: [ "libroadrunner-deps" ]
-        libroadrunner_deps_release_version: [ "2.1.1" ]
+        libroadrunner_deps_release_version: [ "v2.1.1" ]
         python_version: ["3.11"]
 
     runs-on: ${{ matrix.platform.os_name }}
@@ -178,7 +178,7 @@ jobs:
           cd ${RUNNER_WORKSPACE}
           mkdir -p libroadrunner-deps-binaries
           cd libroadrunner-deps-binaries
-          curl -L "https://github.com/${{ matrix.libroadrunner_deps_owner }}/${{ matrix.libroadrunner_deps_repo }}/releases/download/v${{ matrix.libroadrunner_deps_release_version }}/${{ matrix.libroadrunner_deps_repo }}-${{ matrix.platform.name }}.zip" > libroadrunner-deps-${{ matrix.platform.name }}.zip
+          curl -L "https://github.com/${{ matrix.libroadrunner_deps_owner }}/${{ matrix.libroadrunner_deps_repo }}/releases/download/${{ matrix.libroadrunner_deps_release_version }}/${{ matrix.libroadrunner_deps_repo }}-${{ matrix.platform.name }}.zip" > libroadrunner-deps-${{ matrix.platform.name }}.zip
           unzip -q libroadrunner-deps-${{ matrix.platform.name }}.zip -d libroadrunner-deps-${{ matrix.platform.name }}
           rm libroadrunner-deps-${{ matrix.platform.name }}.zip
           echo LIBSBML_INSTALL_DIR="${RUNNER_WORKSPACE}/libroadrunner-deps-binaries/libroadrunner-deps-${{ matrix.platform.name }}" >> "${GITHUB_ENV}"
@@ -198,9 +198,11 @@ jobs:
           mkdir -p build-check
           mkdir -p install-check
           cd build-check
-          cmake -DCMAKE_INSTALL_PREFIX="${RUNNER_WORKSPACE}/check/install-check" -DCMAKE_BUILD_TYPE=Release ../check-0.15.2
+          cmake -DCMAKE_INSTALL_PREFIX="${RUNNER_WORKSPACE}/check/install-check" -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=${{ matrix.platform.arch }} ../check-0.15.2
           cmake --build . --target install
           echo "$RUNNER_WORKSPACE/check/install-check" >> $GITHUB_PATH
+          echo "LIBCHECK_INCLUDE_DIR=\"${RUNNER_WORKSPACE}/check/install-check/include\"" >> "${GITHUB_ENV}"
+          echo "LIBCHECK_LIBRARY=\"${RUNNER_WORKSPACE}/check/install-check/lib/libcheck.a\"" >> "${GITHUB_ENV}"
           
           #if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
           #  brew install check
