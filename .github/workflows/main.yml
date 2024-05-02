@@ -212,6 +212,7 @@ jobs:
               echo LIBCHECK_LIBRARY="-DLIBCHECK_LIBRARY=${RUNNER_WORKSPACE}/check/install-check/lib64/libcheck.so" >> "${GITHUB_ENV}"
             else
               echo LIBCHECK_LIBRARY="-DLIBCHECK_LIBRARY=${RUNNER_WORKSPACE}/check/install-check/lib/libcheck.a" >> "${GITHUB_ENV}"
+            fi
           fi
 
       - name: Install Qt
