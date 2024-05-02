@@ -237,9 +237,8 @@ jobs:
           -DUSE_UNIVERSAL_BINARIES=OFF \
           -DCMAKE_OSX_ARCHITECTURES=${{ matrix.platform.arch }} \
           -DCMAKE_INSTALL_PREFIX="${RUNNER_WORKSPACE}/install-antimony" \
-          
-          ${LIBSBML_INSTALL_DIR} \
           -DWITH_STATIC_SBML=ON \
+          ${LIBSBML_INSTALL_DIR} \
           -DWITH_QTANTIMONY=${{ matrix.platform.build_qt_antimony }} \
           -DWITH_LIBSBML_EXPAT=ON \
           ${EXPAT_LIBRARY} \
