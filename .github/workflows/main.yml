@@ -201,8 +201,8 @@ jobs:
           cmake -DCMAKE_INSTALL_PREFIX="${RUNNER_WORKSPACE}/check/install-check" -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=${{ matrix.platform.arch }} ../check-0.15.2
           cmake --build . --target install
           echo "$RUNNER_WORKSPACE/check/install-check" >> $GITHUB_PATH
-          echo "LIBCHECK_INCLUDE_DIR=\"${RUNNER_WORKSPACE}/check/install-check/include\"" >> "${GITHUB_ENV}"
-          echo "LIBCHECK_LIBRARY=\"${RUNNER_WORKSPACE}/check/install-check/lib/libcheck.a\"" >> "${GITHUB_ENV}"
+          echo echo "export LIBCHECK_INCLUDE_DIR=\"${RUNNER_WORKSPACE}/check/include\"" >> "${GITHUB_ENV}"
+          echo echo "export LIBCHECK_LIBRARY=\"${RUNNER_WORKSPACE}/check/lib/check.lib\"" >> "${GITHUB_ENV}"
           
           #if [ "${{ matrix.platform.os_type }}" == 'macos' ]; then
           #  brew install check
