@@ -79,7 +79,7 @@ jobs:
             build_type: Debug
             build_python: ON
             build_qt_antimony: OFF
-        libroadrunner_deps_owner: [ "adelhpour" ]
+        libroadrunner_deps_owner: [ "sys-bio" ]
         libroadrunner_deps_repo: [ "libroadrunner-deps" ]
         libroadrunner_deps_name: [ "libroadrunner-deps" ]
         libroadrunner_deps_release_version: [ "v2.1.1" ]
