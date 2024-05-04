@@ -32,13 +32,13 @@ jobs:
             os_name: macos-latest
             build_type: Release
             build_python: ON
-            build_qt_antimony: ON
+            build_qt_antimony: OFF
           - name: macos-latest-debug
             os_type: macos
             os_name: macos-latest
             build_type: Debug
             build_python: ON
-            build_qt_antimony: ON
+            build_qt_antimony: OFF
           - name: ubuntu-latest-release
             os_type: ubuntu
             os_name: ubuntu-latest
