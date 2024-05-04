@@ -225,7 +225,7 @@ jobs:
             os_version=$(lsb_release -rs | cut -d '.' -f 1)
             binary_file_name=${{ matrix.libroadrunner_deps_name }}-${{ matrix.platform.os_type }}-${os_version}-${host_architecture}-${{ matrix.platform.build_type }}
           elif [ "${{ matrix.platform.os_type }}" == 'manylinux' ]; then
-            os_name="${{ matrix.platform.os_type }}"
+            os_name="${{ matrix.platform.name }}"
             os_name_without_build_type="${os_name%%-*}"
             binary_file_name=${{ matrix.libroadrunner_deps_name }}-${os_name_without_build_type}-${host_architecture}-${{ matrix.platform.build_type }}
           fi
